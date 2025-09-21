@@ -107,7 +107,7 @@ pub fn forward(_attr_input: TokenStream, item: TokenStream) -> TokenStream {
     }
 
     TokenStream::from(quote!(
-        #[naked]
+        #[unsafe(naked)]
         #(#attrs)*
         pub unsafe extern "C" fn #func_name() {
             #[cfg(target_arch = "x86_64")]
@@ -249,7 +249,7 @@ pub fn pre_hook(attr_input: TokenStream, item: TokenStream) -> TokenStream {
                     #(#func_body)*
                 }
 
-                #[naked]
+                #[unsafe(naked)]
                 #(#attrs)*
                 pub unsafe extern "C" fn #func_name() {
                     std::arch::naked_asm!(
