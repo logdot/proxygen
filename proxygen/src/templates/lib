@@ -1,7 +1,5 @@
-#![feature(naked_functions)]
 #![allow(named_asm_labels)]
 #![allow(non_snake_case)]
-#![feature(asm_const)]
 
 mod export_indices;
 mod intercepted_exports;
@@ -162,12 +160,12 @@ unsafe extern "system" fn init(_: *mut c_void) -> u32 {
 }
 
 /// Call this before attempting to call a function in the proxied DLL
-/// 
+///
 /// This will wait for proxygen to fully load up all the proxied function addresses before returning
 #[no_mangle]
 pub extern "C" fn wait_dll_proxy_init() {
     // NOTE TO SELF: DO NO PRINT STUFF IN HERE
-    
+
     // Safety: `PROXYGEN_READY` will only get flipped to true once, and never back again.
     // We also check if sse2 is supported before using _mm_pause
     if is_x86_feature_detected!("sse2") {
